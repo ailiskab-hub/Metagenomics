@@ -112,7 +112,7 @@ fastqc -o fastqc_res2 ./trimmed/*fastq.gz
 ## Анализ полученных таблиц
 Чтобы проанализировать полученные результаты я отправляюсь в раздел `Marker Data Profiling` на сайте [microbiom](https://www.microbiomeanalyst.ca/MicrobiomeAnalyst/upload/OtuUploadView.xhtml)
 
-### Alpha diversity
+### Community Profiling
 **Rarefaction Curve Analysis**
 
 Rarefaction Curve Analysis - помогает понять, насколько полно исследовано сообщество и как изменяется количество обнаруженных видов при увеличении числа семплов.
@@ -122,4 +122,71 @@ Rarefaction Curve Analysis - помогает понять, насколько �
 <img width="673" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/e4965b54-de41-457d-86d5-114aac606feb">
 
 Анализ кривой: Кривая стабилизируется и выходит на плато достаточно быстро, это может указывать на то, что для полного охвата разнообразия в данном сообществе достаточно имеющихся данных.
+
+**Alpha diversity**
+
+<img width="657" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/2b65abb7-19f5-42a1-a636-0fd3043c5db2">
+
+<img width="637" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/c102b964-da8b-4100-99b4-250b5ad46f04">
+
+<img width="642" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/1a5d63ee-c19d-4365-8574-63b4614d236d">
+
+Результаты, посчитанные мной в R:
+
+```{R}
+   Wilcoxon rank sum exact test
+
+data:  rich$Chao1[1:6] and rich$Chao1[7:12]
+W = 15, p-value = 0.6991
+alternative hypothesis: true location shift is not equal to 0
+
+
+	Wilcoxon rank sum exact test
+
+data:  rich$Shannon[1:6] and rich$Shannon[7:12]
+W = 14, p-value = 0.5887
+alternative hypothesis: true location shift is not equal to 0
+
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  rich$Simpson[1:6] and rich$Simpson[7:12]
+W = 15.5, p-value = 0.7457
+alternative hypothesis: true location shift is not equal to 0
+```
+Основываясь на полученных данных можно утверждать что различия в альфа-разнообразии между контрольными и тестовыми образцами не несут статистической значимости.
+
+_Для расчета статистики я использовала U-критерий Манна-Уитни,так как в выборках всего по 6 наблюдений, поэтому лучше использовать непараметрический критерий_
+
+**Beta diversity**
+
+<img width="593" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/904ada86-d18d-4def-9577-6d45636ea434">
+
+<img width="601" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/006aa006-f11a-410c-aa64-5f6289a3f57f">
+
+
+График по семействам:
+
+<img width="480" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/82709ace-0a2f-4cb4-8dad-307c0e938224">
+
+Основываясь на полученных данных, можно сказать, что различия в обилии микроорганизмов между контролем и тестом не выявлено. 
+
+**Core Microbiome**
+
+Данный анализ позволяет определтить ключевые микроорганизмы, стабильно присутствующие в образцах. Это понадобится для дальнейшего определения микробного сообщества.
+
+<img width="374" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/9f1d224d-442b-46a7-9355-28b8784c2304">
+
+
+### Comparison & Classification
+**Linear Discriminant Analysis Effect Size (LEfSe)**
+
+Linear Discriminant Analysis Effect Size (LEfSe) — это метод для выявления статистически значимых различий между группами. Используется для выявления таксонов, которые значительно различаются между разными группами.
+
+<img width="561" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/dc30de33-ceb2-4a71-baee-0629b1b4b42d">
+
+<img width="397" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/bc44cd99-32f6-4a5e-860b-e61823efae26">
+
+Таким образом, в наших контрольных данных присутствует род Bifidobacterium и Ruminococcus, а в тестовых - Catenibacterium и Granulicatella. 
+И эти различия являются статистически значимыми.
 
