@@ -212,8 +212,9 @@ Linear Discriminant Analysis Effect Size (LEfSe) — это метод для в
 <img
 width="641"
 alt="image"
-src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/461ff9d3-6fdc-44aa-9bf9-c8d06857aec2"
-caption="Examples of taxonomic gut microbiota composition. In the box are cited examples of bacteria belonging to Phyla Firmicutes and Bacteroidetes, representing 90% of gut microbiota">
+src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/461ff9d3-6fdc-44aa-9bf9-c8d06857aec2">
+
+*"Examples of taxonomic gut microbiota composition. In the box are cited examples of bacteria belonging to Phyla Firmicutes and Bacteroidetes, representing 90% of gut microbiota" [4]*
 
 
 ## Литература
@@ -223,7 +224,9 @@ caption="Examples of taxonomic gut microbiota composition. In the box are cited 
 Mandell, Douglas, and Bennett's Principles and Practice of Infectious Diseases (Eighth Edition),
 Pages 2781-2786.e2. https://doi.org/10.1016/B978-1-4557-4801-3.00250-2
 
-[3] R. Hutkins, Y.J. Goh, STREPTOCOCCUS | Streptococcus thermophilus, Encyclopedia of Food Microbiology (Second Edition), Academic Press, 2014, Pages 554-559, ISBN 9780123847331, https://doi.org/10.1016/B978-0-12-384730-0.00325-6.
+[3] R. Hutkins, Y.J. Goh, STREPTOCOCCUS | Streptococcus thermophilus, Encyclopedia of Food Microbiology (Second Edition), Academic Press, 2014, Pages 554-559, ISBN 9780123847331, https://doi.org/10.1016/B978-0-12-384730-0.00325-6
+
+[4] Rinninella E, Raoul P, Cintoni M, Franceschi F, Miggiano GAD, Gasbarrini A, Mele MC. What is the Healthy Gut Microbiota Composition? A Changing Ecosystem across Age, Environment, Diet, and Diseases. Microorganisms. 2019 Jan 10;7(1):14. doi: 10.3390/microorganisms7010014. PMID: 30634578; PMCID: PMC6351938.
 
 
 
