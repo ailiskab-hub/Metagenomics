@@ -45,5 +45,51 @@ cd fastqc_res1/
 - TRAILING:22
 - SLIDINGWINDOW:4:24
 - MINLEN:36
-Для удобства я буду использовать snakemake. Snakefile с коммандой находится в репозитории
+Для удобства я буду использовать snakemake. [Snakefile](https://github.com/ailiskab-hub/Metagenomics/blob/main/Snakefile) с командой находится в репозитории
 
+Создадим папку `trimmed` для хранения обрезанных последовательностей
+
+Далее проведем обрезку последовательностей:
+```{bash}
+cp /home/alisa/metagenomics_SPBU/Task3/*gz .
+snakemake --cores=all -p
+rm *_001* #убираем необрезанные файлы из папки
+mkdir unpair_trim/
+mv *unpaired* unpair_trim/ #перемещаем неспаренные риды в отдельную папочку
+```
+Посмотрим на результаты тримминга:
+```{bash}
+Input Read Pairs: 45330 Both Surviving: 39229 (86.54%) Forward Only Surviving: 3642 (8.03%) Reverse Only Surviving: 955 (2.11%) Dropped: 1504 (3.32%)
+
+Input Read Pairs: 42061 Both Surviving: 38732 (92.09%) Forward Only Surviving: 1428 (3.40%) Reverse Only Surviving: 1138 (2.71%) Dropped: 763 (1.81%)
+
+Input Read Pairs: 50056 Both Surviving: 42448 (84.80%) Forward Only Surviving: 5430 (10.85%) Reverse Only Surviving: 585 (1.17%) Dropped: 1593 (3.18%)
+
+Input Read Pairs: 52523 Both Surviving: 44773 (85.24%) Forward Only Surviving: 5155 (9.81%) Reverse Only Surviving: 838 (1.60%) Dropped: 1757 (3.35%)
+
+Input Read Pairs: 57063 Both Surviving: 51964 (91.06%) Forward Only Surviving: 2309 (4.05%) Reverse Only Surviving: 1529 (2.68%) Dropped: 1261 (2.21%)
+
+Input Read Pairs: 54928 Both Surviving: 46630 (84.89%) Forward Only Surviving: 5796 (10.55%) Reverse Only Surviving: 680 (1.24%) Dropped: 1822 (3.32%)
+
+Input Read Pairs: 56311 Both Surviving: 48972 (86.97%) Forward Only Surviving: 4632 (8.23%) Reverse Only Surviving: 1004 (1.78%) Dropped: 1703 (3.02%)
+
+Input Read Pairs: 53322 Both Surviving: 47808 (89.66%) Forward Only Surviving: 3056 (5.73%) Reverse Only Surviving: 1138 (2.13%) Dropped: 1320 (2.48%)
+
+Input Read Pairs: 61817 Both Surviving: 55815 (90.29%) Forward Only Surviving: 3182 (5.15%) Reverse Only Surviving: 1256 (2.03%) Dropped: 1564 (2.53%)
+
+Input Read Pairs: 67072 Both Surviving: 59660 (88.95%) Forward Only Surviving: 3875 (5.78%) Reverse Only Surviving: 1785 (2.66%) Dropped: 1752 (2.61%)
+
+Input Read Pairs: 74203 Both Surviving: 68186 (91.89%) Forward Only Surviving: 2927 (3.94%) Reverse Only Surviving: 1556 (2.10%) Dropped: 1534 (2.07%)
+
+Input Read Pairs: 74417 Both Surviving: 68317 (91.80%) Forward Only Surviving: 3127 (4.20%) Reverse Only Surviving: 1584 (2.13%) Dropped: 1389 (1.87%)
+```
+
+В целом, сохранен достаточно большой процент ридов (более 90% почти в каждом образце)
+
+Далее снова посмотрим на качество последовательностей посде тримминга. Будем смотреть именно на спаренные последовательности
+```{bash}
+cd ..
+mkdir fastqc_res2
+fastqc -o fastqc_res2 ./trimmed/*fastq.gz
+```
+Полученные файлы сохранены в папке [fastqc_res2]
