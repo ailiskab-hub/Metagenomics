@@ -102,9 +102,20 @@ fastqc -o fastqc_res2 ./trimmed/*fastq.gz
 
 Распакуем обрезанные последовательности `gunzip trimmed/*gz`
 
+## Обработка данных
+
 Далее работа будет проходить по пайплайну [dada2](https://benjjneb.github.io/dada2/tutorial_1_8.html), в [скрипте на R]
 
 В результате мы получили ASV table и результаты таксономического анализа. Также я создала файл `metadata.csv`, в котором хранятся данные образцов. Все это ледит в папке [`analysis`](https://github.com/ailiskab-hub/Metagenomics/tree/main/analysis)
+
+
+## Анализ полученных таблиц
+Чтобы проанализировать полученные результаты я отправляюсь в раздел `Marker Data Profiling` на сайте [microbiom](https://www.microbiomeanalyst.ca/MicrobiomeAnalyst/upload/OtuUploadView.xhtml)
+
+### Alpha diversity
+**Rarefaction Curve Analysis**
+
+<img width="673" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/e4965b54-de41-457d-86d5-114aac606feb">
 
 
 
