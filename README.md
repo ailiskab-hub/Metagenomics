@@ -193,7 +193,7 @@ Linear Discriminant Analysis Effect Size (LEfSe) — это метод для в
 ## Формирование гипоотезы
 Чтобы выяснить какое микробное сообщество было отсеквенировано нужно обратиться к данным, полученным из анализа [`Core Microbiom`](#core)
 
-Данные в виде [таблицы] представлены в репозитории.
+Данные в виде [таблицы](https://github.com/ailiskab-hub/Metagenomics/blob/main/core_microbiome.csv) представлены в репозитории.
 
 1) _Faecalibacterium sp._
    
