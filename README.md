@@ -192,3 +192,38 @@ Linear Discriminant Analysis Effect Size (LEfSe) — это метод для в
 
 ## Формирование гипоотезы
 Чтобы выяснить какое микробное сообщество было отсеквенировано нужно обратиться к данным, полученным из анализа [`Core Microbiom`](#core)
+
+Данные в виде [таблицы] представлены в репозитории.
+
+1) _Faecalibacterium sp._
+   
+   У людей по всему миру широко распространены _Faecalibacterium_ - они были обнаружены в 85% образцах микробиоты кишечника, а представители рода _Faecalibacterium_ считаются повсеместно распространенными в желудочно-кишечном тракте здоровых людей [1]
+
+2) _Collinsella and Bifidobacterium_
+
+   _Collinsella and Bifidobacterium_ являются важными бактериями в развитии микробиоты кишечника. У пожилых людей по мере старения наблюдается снижение уровня популяций бифидобактерий в кишечнике [2]
+
+3) _Streptococcus_
+
+   Род _Streptococcus_ включает около 100 видов грамположительных бактерий, обитающих в различных средах и имеющих множество различий. Одни стрептококки патогенны, а другие являются нормальными обитателями полости рта и желудочно-кишечного тракта [3]
+
+Судя по перечисленным родам, сообщество представляет собой микробиом кишечника. Такие роды, как _Faecalibacterium, Bifidobacterium, Collinsella, Streptococcus, Prevotella_ и другие, обычно ассоциируются с микробиотой кишечника. Присутствие этих родов позволяет предположить, что данное сообщество может быть связано с желудочно-кишечным трактом.
+
+<img
+width="641"
+alt="image"
+src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/461ff9d3-6fdc-44aa-9bf9-c8d06857aec2"
+caption="Examples of taxonomic gut microbiota composition. In the box are cited examples of bacteria belonging to Phyla Firmicutes and Bacteroidetes, representing 90% of gut microbiota">
+
+
+## Литература
+[1] Rebeca Martín, David Rios-Covian, Eugénie Huillet, Sandrine Auger, Sarah Khazaal, Luis G Bermúdez-Humarán, Harry Sokol, Jean-Marc Chatel, Philippe Langella, Faecalibacterium: a bacterial genus with promising human health applications, FEMS Microbiology Reviews, Volume 47, Issue 4, July 2023, fuad039, https://doi.org/10.1093/femsre/fuad039
+
+[2] Eija Könönen, 250 - Anaerobic Cocci and Anaerobic Gram-Positive Nonsporulating Bacilli. 
+Mandell, Douglas, and Bennett's Principles and Practice of Infectious Diseases (Eighth Edition),
+Pages 2781-2786.e2. https://doi.org/10.1016/B978-1-4557-4801-3.00250-2
+
+[3] R. Hutkins, Y.J. Goh, STREPTOCOCCUS | Streptococcus thermophilus, Encyclopedia of Food Microbiology (Second Edition), Academic Press, 2014, Pages 554-559, ISBN 9780123847331, https://doi.org/10.1016/B978-0-12-384730-0.00325-6.
+
+
+
