@@ -20,7 +20,7 @@ mkdir Task3  # сюда перемещаем скачанные последов
 cd Task3
 ls 
 ```
-<img width="1000" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/7358be88-f377-48e6-ac8d-b8397310e7da">
+<img width="1000" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/photo_2023-11-18_00-50-19.jpg">
 
 Посмотрим на качество наших данных с помощью [fasQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 ```{bash}
@@ -119,17 +119,17 @@ Rarefaction Curve Analysis - помогает понять, насколько �
 
 По оси X отображается количество семплов, а по оси Y — количество уникальных видов. График позволяет оценить, насколько сообщество насыщено видами.
 
-<img width="673" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/e4965b54-de41-457d-86d5-114aac606feb">
+<img width="673" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283517714-e4965b54-de41-457d-86d5-114aac606feb.png">
 
 Анализ кривой: Кривая стабилизируется и выходит на плато достаточно быстро, это может указывать на то, что для полного охвата разнообразия в данном сообществе достаточно имеющихся данных.
 
 **Alpha diversity**
 
-<img width="657" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/2b65abb7-19f5-42a1-a636-0fd3043c5db2">
+<img width="657" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283602602-2b65abb7-19f5-42a1-a636-0fd3043c5db2.png">
 
-<img width="637" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/c102b964-da8b-4100-99b4-250b5ad46f04">
+<img width="637" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283602765-c102b964-da8b-4100-99b4-250b5ad46f04.png">
 
-<img width="642" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/1a5d63ee-c19d-4365-8574-63b4614d236d">
+<img width="642" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283602908-1a5d63ee-c19d-4365-8574-63b4614d236d.png">
 
 Результаты, посчитанные мной в R:
 
@@ -160,14 +160,14 @@ _Для расчета статистики я использовала U-кри
 
 **Beta diversity**
 
-<img width="593" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/904ada86-d18d-4def-9577-6d45636ea434">
+<img width="593" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283605363-904ada86-d18d-4def-9577-6d45636ea434.png">
 
-<img width="601" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/006aa006-f11a-410c-aa64-5f6289a3f57f">
+<img width="601" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283606822-006aa006-f11a-410c-aa64-5f6289a3f57f.png">
 
 
 График по семействам:
 
-<img width="480" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/82709ace-0a2f-4cb4-8dad-307c0e938224">
+<img width="480" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283606259-82709ace-0a2f-4cb4-8dad-307c0e938224.png">
 
 Основываясь на полученных данных, можно сказать, что различия в обилии микроорганизмов между контролем и тестом не выявлено. 
 
@@ -175,7 +175,7 @@ _Для расчета статистики я использовала U-кри
 
 Данный анализ позволяет определтить ключевые микроорганизмы, стабильно присутствующие в образцах. Это понадобится для дальнейшего определения микробного сообщества.
 
-<img width="374" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/9f1d224d-442b-46a7-9355-28b8784c2304">
+<img width="374" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283611941-9f1d224d-442b-46a7-9355-28b8784c2304.png">
 
 
 ### Comparison & Classification
@@ -183,9 +183,9 @@ _Для расчета статистики я использовала U-кри
 
 Linear Discriminant Analysis Effect Size (LEfSe) — это метод для выявления статистически значимых различий между группами. Используется для выявления таксонов, которые значительно различаются между разными группами.
 
-<img width="561" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/dc30de33-ceb2-4a71-baee-0629b1b4b42d">
+<img width="561" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283608355-dc30de33-ceb2-4a71-baee-0629b1b4b42d.png">
 
-<img width="397" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/bc44cd99-32f6-4a5e-860b-e61823efae26">
+<img width="397" alt="image" src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283609230-bc44cd99-32f6-4a5e-860b-e61823efae26.png">
 
 Таким образом, в наших контрольных данных присутствует род Bifidobacterium и Ruminococcus, а в тестовых - Catenibacterium и Granulicatella. 
 И эти различия являются статистически значимыми.
@@ -212,7 +212,7 @@ Linear Discriminant Analysis Effect Size (LEfSe) — это метод для в
 <img
 width="641"
 alt="image"
-src="https://github.com/ailiskab-hub/Metagenomics/assets/112699940/461ff9d3-6fdc-44aa-9bf9-c8d06857aec2">
+src="https://github.com/ailiskab-hub/Metagenomics/blob/main/Pictures/283623521-461ff9d3-6fdc-44aa-9bf9-c8d06857aec2.png">
 
 *"Examples of taxonomic gut microbiota composition. In the box are cited examples of bacteria belonging to Phyla Firmicutes and Bacteroidetes, representing 90% of gut microbiota" [4]*
 
