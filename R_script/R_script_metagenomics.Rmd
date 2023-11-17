@@ -1,0 +1,318 @@
+---
+title: "DADA_pipeline"
+author: "Alisa Kabalina"
+date: "2023-11-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+main_dir <- dirname(rstudioapi::getSourceEditorContext()$path) 
+setwd(main_dir)
+
+path <- "/home/alisa/metagenomics_SPBU/Task3/trimmed/"
+list.files(path)
+```
+
+Let's install and activate libraries
+
+```{r message=FALSE}
+#install.packages("BiocManager")
+
+```
+
+```{r message=FALSE, warning=FALSE}
+#BiocManager::install("dada2", version = "3.18")
+#BiocManager::install("phyloseq")
+library (ggplot2)
+library(dplyr)
+library(dada2)
+library(phyloseq)
+library(vegan)
+```
+
+First we read in the names of the fastq files, and perform some string manipulation to get lists of the forward and reverse fastq files in matched order
+
+```{r}
+# Forward and reverse fastq filenames have format: group1_1_R1_paired.fastq and group1_1_R2_paired.fastq
+fnFs <- sort(list.files(path, pattern="_R1_paired.fastq", full.names = FALSE))
+fnRs <- sort(list.files(path, pattern="_R2_paired.fastq", full.names = FALSE))
+
+# Extract sample names
+sample.names <- sapply(strsplit(basename(fnFs), "_R"), `[`, 1)
+sample.names
+```
+
+As DADA required no N bases in the sequences, we have to remove it
+
+```{r}
+filtFs <- file.path(path, "filtered", paste0(sample.names, "_F_filt.fastq"))
+filtRs <- file.path(path, "filtered", paste0(sample.names, "_R_filt.fastq"))
+out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, maxN=0, compress=TRUE, multithread=FALSE)
+out
+```
+
+### Learn the Error Rates
+
+The learnErrors method learns this error model from the data, by alternating estimation of the error rates and inference of sample composition until they converge on a jointly consistent solution.
+
+```{r}
+# errF <- learnErrors(filtFs, multithread=TRUE)
+
+# or import te data that was calculated before
+errF <- readRDS("errors_forvard.RData")
+```
+
+```{r}
+plotErrors(errF, nominalQ=TRUE)
+```
+
+Save results of learnErrors for later usage
+
+```{r}
+#saveRDS(errF, file="errors_forvard.RData")
+```
+
+Then we have to do the same for the reverse samples
+
+```{r}
+# errR <- learnErrors(filtRs, multithread=TRUE)
+# saveRDS(errR, file="errors_reverse.RData")
+errR <- readRDS("errors_reverse.RData")
+```
+
+```{r}
+plotErrors(errR, nominalQ=TRUE)
+```
+
+### Dereplication
+
+Next step is to do dereplication of the sequences. Dereplication combines all identical sequencing reads into into "unique sequences" with a corresponding "abundance" equal to the number of reads with that unique sequence.
+
+```{r message=FALSE, warning=FALSE}
+derepFs <- derepFastq(filtFs, verbose=TRUE)
+derepRs <- derepFastq(filtRs, verbose=TRUE)
+
+# Name the derep-class objects by the sample names
+names(derepFs) <- sample.names
+names(derepRs) <- sample.names
+```
+
+Then we use the core sample inference algorithm to the dereplicated data.
+
+```{r}
+dadaFs <- dada(derepFs, err=errF, multithread=TRUE)
+dadaRs <- dada(derepRs, err=errR, multithread=TRUE)
+```
+
+```{r}
+dadaFs[[1]]
+```
+
+The next step is to merge paired reads to obtain the full sequences.
+
+```{r}
+mergers <- mergePairs(dadaFs, derepFs, dadaRs, derepRs)
+
+# mergers[[1]]
+```
+
+### Construct an amplicon sequence variant (ASV) table
+
+```{r message=FALSE}
+seqtab <- makeSequenceTable(mergers)
+
+#The distribution of sequence lengths
+table(nchar(getSequences(seqtab)))
+```
+
+### Remove chimeras
+
+Or just imoport the data that was calculated before
+
+```{r}
+#seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
+seqtab.nochim <- readRDS('seqtab_nochim.RData')
+asv_tab <- t(seqtab.nochim)
+dim(seqtab.nochim)
+```
+
+
+```{r}
+#saveRDS(seqtab.nochim, 'seqtab_nochim.RData')
+#write.csv(seqtab.nochim, 'seqtab_nochim.csv', quote=FALSE)
+#write.csv(asv_tab, 'analysis/asv_tab.csv', quote=FALSE)
+
+
+str(seqtab.nochim)
+row.names(seqtab.nochim)
+```
+
+Let's take a look how much data don't contain chimeras
+
+```{r}
+sum(seqtab.nochim)/sum(seqtab)
+```
+
+The final step before assigning taxonomy is to look at the number of reads that passed at every step of the pipeline
+
+```{r}
+getN <- function(x) sum(getUniques(x))
+track <- cbind(out, sapply(dadaFs, getN), sapply(dadaRs, getN), sapply(mergers, getN), rowSums(seqtab.nochim))
+
+
+colnames(track) <- c("input", "filtered", "denoisedF", "denoisedR", "merged", "nonchim")
+rownames(track) <- sample.names
+track
+```
+
+### Assign taxonomy
+
+```{r}
+# taxa <- assignTaxonomy(seqtab.nochim, "silva_nr_v138_train_set.fa.gz", multithread=TRUE)
+
+# bad_taxa = as.character(rownames(taxa))[(taxa[, 1] == 'Eukaryota' & 
+#                                           is.na(taxa[, 3])) | is.na(taxa[, 2])]
+# print(length(bad_taxa))
+# print(ncol(seqtab.nochim))
+# seqtab.nochim = seqtab.nochim[, sapply(as.character(colnames(seqtab.nochim)), 
+#                                       function(x) !(x %in% bad_taxa))]
+# print(nrow(seqtab.nochim))
+
+# taxa <- assignTaxonomy(seqtab.nochim, "silva_nr_v138_train_set.fa.gz", multithread=TRUE)
+
+# taxa <- addSpecies(taxa, "silva_species_assignment_v138.fa.gz", verbose=TRUE, allowMultiple=T)
+
+```
+
+
+Or import data that was calculated before
+
+```{r}
+taxa <- readRDS("taxa.RData")
+taxa_df <- read.csv("analysis/taxa_df.csv")
+taxa_print_df <- read.csv("taxa_print.csv")
+```
+
+```{r}
+taxa.print <- taxa # Removing sequence rownames for display only
+rownames(taxa.print) <- NULL
+taxa_print_df <- data.frame(taxa.print)
+
+head(taxa_print_df)
+```
+
+Save the data for later usage
+```{r}
+#saveRDS(taxa, file="taxa.RData")
+#write.csv(taxa, "analysis/taxa_df.csv", quote=FALSE)
+#write.csv(taxa_print_df, "taxa_print.csv", row.names=FALSE, quote=FALSE) 
+```
+
+
+### Alpha-diversity
+
+Сalculate the biodiversity index and compare the presence of statistical differences
+
+```{r}
+colnames(seqtab.nochim) <-  as.character(sapply(colnames(seqtab.nochim), function(x) gsub('NNNNNNNNNN', '', x)))
+
+samples_data <- data.frame(SampleID=sample.names)
+rownames(samples_data) <- sample.names
+
+ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE), 
+               sample_data(samples_data), 
+               tax_table(taxa))
+
+```
+
+Estimate richness
+
+```{r}
+rich = estimate_richness(ps)
+colnames(rich)[0] <- 'Sample'
+rich <- rich %>% mutate_if(is.numeric, round, digits = 3)
+rich
+```
+
+Shannon index varies between 4.272 and 5.217. That means that we have more than one dominant species Chao1 is an indicator of species richness. There we can see that it varies between 118 and 252. So we can conclude that there is quite high richness in our samples
+
+```{r}
+wilcox.test(rich$Chao1[1:6], rich$Chao1[7:12])
+wilcox.test(rich$Shannon[1:6], rich$Shannon[7:12])
+wilcox.test(rich$Simpson[1:6], rich$Simpson[7:12])
+```
+
+Based on test results we can conclude that our observations belong to the same general population (p-value > 0.05)
+
+```{r}
+#dir.create('results')
+write.csv(rich, "results/alpha_diversity.csv", row.names=FALSE, quote=FALSE)
+```
+
+```{r}
+plot_richness(ps, measures=c("Chao1", "Shannon", "Simpson"))
+```
+
+Eveness
+
+Transform data to proportions as appropriate for Bray-Curtis distances
+
+```{r}
+ps.prop <- transform_sample_counts(ps, function(otu) otu/sum(otu))
+ord.nmds.bray <- ordinate(ps.prop, method="NMDS", distance="bray")
+
+plot_ordination(ps.prop, ord.nmds.bray, title="Bray NMDS")
+```
+
+```{r}
+top20 <- names(sort(taxa_sums(ps), decreasing=TRUE))[1:20]
+ps.top20 <- transform_sample_counts(ps, function(OTU) OTU/sum(OTU))
+ps.top20 <- prune_taxa(top20, ps.top20)
+plot_bar(ps.top20, fill="Family")
+```
+
+```{r}
+abundances_table <- function(ps, seqtab, rank){
+    rank_ps <- tax_glom(ps, rank)
+    otu_df <- as.data.frame(t(otu_table(rank_ps)))
+    taxa_table <- tax_table(rank_ps)
+    taxa_table <- taxa_table[,colSums(is.na(taxa_table))<nrow(taxa_table)] # all rows are saved here
+    # rownames(otu_df) <- apply(taxa_table, 1, paste, collapse=";")
+    if (rank=='Species'){
+      otu_df["taxa"] <- apply(taxa_table[, c('Genus', 'Species')], 1, paste, collapse="_")
+    }
+    else {
+      otu_df["taxa"] <- taxa_table[, rank]
+    }
+    otu_df <- otu_df %>% group_by(taxa) %>% summarise_all(funs(sum))
+    otu_df <- as.data.frame(otu_df)
+    rownames(otu_df) <- otu_df$taxa
+    otu_df <- otu_df[, !(names(otu_df) %in% c("taxa"))]
+    otu_df["Unclassified", ] <-  rowSums(seqtab) - colSums(otu_df)
+    otu_df <- (t(apply(otu_df, 1, function(x) round(x/colSums(otu_df), digits=8)*100)))
+    
+    return(otu_df[order(rowMeans(otu_df), decreasing = TRUE), ])
+}
+
+```
+
+```{r warning=FALSE}
+species_table <- abundances_table(ps, seqtab.nochim, "Species")
+genus_table <- abundances_table(ps, seqtab.nochim, "Genus")
+family_table <- abundances_table(ps, seqtab.nochim, "Family")
+class_table <- abundances_table(ps, seqtab.nochim, "Class")
+phylum_table <- abundances_table(ps, seqtab.nochim, "Phylum")
+```
+
+```{r}
+
+write.csv(species_table, file=paste0("results/", 'Species.csv'), quote=FALSE)
+write.csv(species_table, file=paste0("results/", 'Genus.csv'), quote=FALSE)
+write.csv(species_table, file=paste0("results/", 'Family.csv'), quote=FALSE)
+write.csv(species_table, file=paste0("results/", 'Class.csv'), quote=FALSE)
+write.csv(species_table, file=paste0("results/", 'Phylum.csv'), quote=FALSE)
+```
