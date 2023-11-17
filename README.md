@@ -104,7 +104,7 @@ fastqc -o fastqc_res2 ./trimmed/*fastq.gz
 
 ## Обработка данных
 
-Далее работа будет проходить по пайплайну [dada2](https://benjjneb.github.io/dada2/tutorial_1_8.html), в [скрипте на R]
+Далее работа будет проходить по пайплайну [dada2](https://benjjneb.github.io/dada2/tutorial_1_8.html), в [скрипте на R](https://github.com/ailiskab-hub/Metagenomics/tree/main/R_script)
 
 В результате мы получили ASV table и результаты таксономического анализа. Также я создала файл `metadata.csv`, в котором хранятся данные образцов. Все это ледит в папке [`analysis`](https://github.com/ailiskab-hub/Metagenomics/tree/main/analysis)
 
