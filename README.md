@@ -8,7 +8,7 @@
    - анализ на специфические таксоны (LefSE) с использованием платформы [microbiom](https://www.microbiomeanalyst.ca/)
 4. Формирование гипотезы о типе отсеквенированного микробиомного сообщества
 
-Для анализа я выбрала набор данных №3.
+Для анализа я выбрала набор данных №3 [data](https://drive.google.com/drive/folders/1JkwnWAHijsPuMDXCpKTxr8-l_OziY1to?usp=drive_link).
 
 ## Предобработка данных
 Прежде всего необходимо скачать данные с гугл диска и создать необходимые папки:
@@ -16,7 +16,7 @@
 conda activate bi_env
 mkdir metagenomics_SPBU
 cd metagenomics_SPBU/
-mkdir Task3  # сюда перемещаем скачанные последовательности
+mkdir Task3  
 cd Task3
 ls 
 ```
